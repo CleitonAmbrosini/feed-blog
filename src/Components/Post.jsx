@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useState } from 'react'
 import { Avatar } from './Avatar'
 import { format, formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -6,6 +7,9 @@ import { Comment } from './Comment'
 import styles from './Post.module.css'
 
 const Post = ({author, content, publishedAt}) => {
+    const [comments, setComments] = useState([])
+    const [newComment, setNewComment] = useState('')
+
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
         locale: ptBR,
     })
@@ -14,6 +18,23 @@ const Post = ({author, content, publishedAt}) => {
         locale: ptBR,
         addSuffix: true,
     })
+
+    const handleSubmit = () => {
+        event.preventDefault()
+        setComments([...comments, newComment])
+        setNewComment('')
+    }
+
+    const handleChange = () => {
+        setNewComment(event.target.value)
+    }
+
+    const deleteComment = (commentToDelete) => {
+        const commentsWithoutDeleteOne = comments.filter((comment) => {
+            return comment !== commentToDelete
+        })
+        setComments(commentsWithoutDeleteOne)
+    }
 
     return (
         <article className={styles.post}>
@@ -45,10 +66,13 @@ const Post = ({author, content, publishedAt}) => {
                 })}
             </div>
 
-            <form className={styles.commentForm}>
+            <form onSubmit={handleSubmit} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
                 <textarea
+                    name='comment'
+                    value={newComment}
                     placeholder="Deixe seu comentário"
+                    onChange={handleChange}
                 />
                 <footer>
                     <button type='submit'>Publicar</button>
@@ -56,9 +80,15 @@ const Post = ({author, content, publishedAt}) => {
             </form>
 
             <div className={styles.commentList}>
-                <Comment />
-                <Comment />
-                <Comment />
+                {comments.map((comment) => {
+                    return (
+                        <Comment
+                            key={comment}
+                            content={comment}
+                            onDeleteComment={deleteComment}
+                        />
+                    )
+                })}
             </div>
         </article>
     )
