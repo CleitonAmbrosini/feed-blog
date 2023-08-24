@@ -1,58 +1,27 @@
-<br />
-<div align="center">
-  <img src="./src/assets/logo.png" alt="Logo" width="80" height="80">
+# React + TypeScript + Vite
 
-  <h3 align="center">Feed Blog</h3>
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-  <p align="center">
-    <br />
-    <a href="https://willowy-fairy-a2fc05.netlify.app/">View Demo</a>
-  </p>
-</div>
+Currently, two official plugins are available:
 
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## Expanding the ESLint configuration
 
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+- Configure the top-level `parserOptions` property like this:
 
-Project created to practice and enhance skills with ReactJS.
+```js
+   parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    tsconfigRootDir: __dirname,
+   },
+```
 
-
-
-
-### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-* [![React][React.js]][React-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- []
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Cleiton A. Ambrosini - [LinkedIn](https://www.linkedin.com/in/cleitonambrosini) - cleiton.ambro@gmail.com
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
