@@ -1,13 +1,29 @@
-/* eslint-disable react/prop-types */
-import { useState } from 'react'
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react'
 import { Avatar } from './Avatar'
 import { format, formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
 
-const Post = ({author, content, publishedAt}) => {
-    const [comments, setComments] = useState([])
+interface Author {
+    name: string;
+    role: string;
+    avatarURL: string;
+}
+
+interface Content {
+    type: string;
+    content: string;
+}
+
+interface PostProps {
+    author: Author;
+    publishedAt: Date;
+    content: Content[]
+}
+
+const Post = ({author, content, publishedAt}: PostProps) => {
+    const [comments, setComments] = useState<string[]>([])
     const [newComment, setNewComment] = useState('')
 
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
@@ -19,22 +35,29 @@ const Post = ({author, content, publishedAt}) => {
         addSuffix: true,
     })
 
-    const handleSubmit = () => {
+    const handleSubmit = (event: FormEvent) => {
         event.preventDefault()
         setComments([...comments, newComment])
         setNewComment('')
     }
 
-    const handleChange = () => {
+    const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        event.target.setCustomValidity('')
         setNewComment(event.target.value)
     }
 
-    const deleteComment = (commentToDelete) => {
+    const handleNewCommentInvalid = (event: InvalidEvent<HTMLTextAreaElement>) => {
+        event.target.setCustomValidity('Campo obrigatório!')
+    }
+
+    const deleteComment = (commentToDelete: string) => {
         const commentsWithoutDeleteOne = comments.filter((comment) => {
             return comment !== commentToDelete
         })
         setComments(commentsWithoutDeleteOne)
     }
+
+    const isCommentEmpty = newComment.length === 0
 
     return (
         <article className={styles.post}>
@@ -73,9 +96,11 @@ const Post = ({author, content, publishedAt}) => {
                     value={newComment}
                     placeholder="Deixe seu comentário"
                     onChange={handleChange}
+                    onInvalid={handleNewCommentInvalid}
+                    required
                 />
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    <button type='submit' disabled={isCommentEmpty}>Publicar</button>
                 </footer>
             </form>
 

@@ -20,7 +20,7 @@ const posts = [
         type: 'paragraph', content: 'Estou fazendo esse post para testar'
       },
       {
-        type: ' link', content: 'https://google.com'
+        type: 'link', content: 'https://google.com'
       }
     ],
     publishedAt: new Date('2023-08-16 12:30:25'),
@@ -40,7 +40,7 @@ const posts = [
         type: 'paragraph', content: 'Estou fazendo esse outro post para testar a aplicação'
       },
       {
-        type: ' link', content: 'https://google.com'
+        type: 'link', content: 'https://google.com'
       }
     ],
     publishedAt: new Date('2023-09-08 17:22:25'),
@@ -56,7 +56,6 @@ function App() {
         <Sidebar />
         <main>
           {posts.map(post => {
-          console.log("🚀 ~ file: App.jsx:69 ~ App ~ post:", post)
             return (
               <React.Fragment key={`${post.id}-${post.publishedAt}`}>
                 <Post
